@@ -11,8 +11,10 @@ class Square extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.setState({mark: this.props.turn});
-        this.props.buttonClick();
+        if (this.state.mark === '') {
+            this.setState({mark: this.props.turn});
+            this.props.buttonClick();
+        }
     }
     render() {
         return (
