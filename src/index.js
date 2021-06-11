@@ -12,26 +12,26 @@ class Square extends React.Component {
     }
     handleClick() {
         if (this.state.mark === '') {
-            this.setState({mark: this.props.turn});
+            this.setState({ mark: this.props.turn });
             this.props.buttonClick();
         }
     }
     render() {
         return (
-        <button 
-            className='square' 
-            num={this.props.num}
-            onClick={this.handleClick}
-        >{this.state.mark}</button>
+            <button
+                className='square'
+                num={this.props.num}
+                onClick={this.handleClick}
+            >{this.state.mark}</button>
         )
     }
 }
 
 class Board extends React.Component {
     renderButton(i) {
-        return <Square 
-            num={i} 
-            turn={this.props.turn} 
+        return <Square
+            num={i}
+            turn={this.props.turn}
             buttonClick={this.props.buttonClick} />
     }
     render() {
@@ -61,19 +61,47 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            turn: 'x'
+            turn: 'x',
+            squares: Array(9).fill('')
         };
-        this.toggleTurn = this.toggleTurn.bind(this);
+        this.buttonClick = this.buttonClick.bind(this);
     }
     toggleTurn() {
-        console.log('Toggling');
-        this.setState(this.state.turn === 'x' ? {turn: 'o'} : {turn: 'x'});
+        //console.log('Toggling');
+        this.setState(this.state.turn === 'x' ? { turn: 'o' } : { turn: 'x' });
+    }
+    updateSquares() {
+        console.log(this.state.squares);
+    }
+    buttonClick () {
+        this.toggleTurn();
+        this.updateSquares();
+    }
+    calculateWinner() {
+        const squares = this.state.squares;
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
+            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                return squares[a];
+            }
+        }
+        return '';
     }
     render() {
         return (
             <>
                 <h1>Turn: {this.state.turn}</h1>
-                <Board turn={this.state.turn} buttonClick={this.toggleTurn} />
+                <Board turn={this.state.turn} buttonClick={this.buttonClick} />
             </>
         );
     }
