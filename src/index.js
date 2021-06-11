@@ -2,29 +2,46 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square () {
-    return <button 
-    className='square'>a</button>
-}
-
-function Board () {
-    const renderSquare = () => {
-        return <Square />;
+class Square extends React.Component {
+    render() {
+        return <button className='square'></button>
     }
-    return (
-        <div class='board'>
-            {renderSquare()}
-        </div>
-    );
+
 }
 
-function Game () {
-    return (
-        <>
-            <h1>Hello world</h1>
-            <Board />
-        </>
-    );
+class Board extends React.Component {
+    render() {
+        return (
+            <div class='board'>
+                <div class='row'>
+                    <Square />
+                    <Square />
+                    <Square />
+                </div>
+                <div class='row'>
+                    <Square />
+                    <Square />
+                    <Square />
+                </div>
+                <div class='row'>
+                    <Square />
+                    <Square />
+                    <Square />
+                </div>
+            </div>
+        );
+    }
+}
+
+class Game extends React.Component {
+    render() {
+        return (
+            <>
+                <h1>Tic Tac Toe</h1>
+                <Board />
+            </>
+        );
+    }
 }
 
 ReactDOM.render(<Game />, document.getElementById('root'));
