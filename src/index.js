@@ -6,12 +6,12 @@ class Square extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mark: ' '
+            mark: ''
         }
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.setState(this.props.turn === 'x' ? {mark: 'x'} : {mark: 'o'});
+        this.setState({mark: this.props.turn});
         this.props.buttonClick();
     }
     render() {
@@ -26,23 +26,29 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
+    renderButton(i) {
+        return <Square 
+            num={i} 
+            turn={this.props.turn} 
+            buttonClick={this.props.buttonClick} />
+    }
     render() {
         return (
             <div className='board'>
                 <div className='row'>
-                    <Square num='0' turn={this.props.turn} buttonClick={this.props.buttonClick} />
-                    <Square num='1' />
-                    <Square num='2' />
+                    {this.renderButton(0)}
+                    {this.renderButton(1)}
+                    {this.renderButton(2)}
                 </div>
                 <div className='row'>
-                    <Square num='3' />
-                    <Square num='4' />
-                    <Square num='5' />
+                    {this.renderButton(3)}
+                    {this.renderButton(4)}
+                    {this.renderButton(5)}
                 </div>
                 <div className='row'>
-                    <Square num='6' />
-                    <Square num='7' />
-                    <Square num='8' />
+                    {this.renderButton(6)}
+                    {this.renderButton(7)}
+                    {this.renderButton(8)}
                 </div>
             </div>
         );
