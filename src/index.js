@@ -13,14 +13,14 @@ class Square extends React.Component {
     handleClick() {
         if (this.state.mark === '') {
             this.setState({ mark: this.props.turn });
-            this.props.buttonClick();
+            this.props.toggleTurn();
+            this.props.updateSquares(this.props.num);
         }
     }
     render() {
         return (
             <button
                 className='square'
-                num={this.props.num}
                 onClick={this.handleClick}
             >{this.state.mark}</button>
         )
@@ -32,7 +32,8 @@ class Board extends React.Component {
         return <Square
             num={i}
             turn={this.props.turn}
-            buttonClick={this.props.buttonClick} />
+            toggleTurn={this.props.toggleTurn}
+            updateSquares={this.props.updateSquares} />
     }
     render() {
         return (
@@ -64,18 +65,17 @@ class Game extends React.Component {
             turn: 'x',
             squares: Array(9).fill('')
         };
-        this.buttonClick = this.buttonClick.bind(this);
+        this.toggleTurn = this.toggleTurn.bind(this);
+        this.updateSquares = this.updateSquares.bind(this);
     }
     toggleTurn() {
-        //console.log('Toggling');
         this.setState(this.state.turn === 'x' ? { turn: 'o' } : { turn: 'x' });
     }
-    updateSquares() {
+    updateSquares(num) {
+        const myArr = this.state.squares;
+        myArr[num] = this.state.turn;
+        this.setState({squares: myArr})
         console.log(this.state.squares);
-    }
-    buttonClick () {
-        this.toggleTurn();
-        this.updateSquares();
     }
     calculateWinner() {
         const squares = this.state.squares;
@@ -101,7 +101,10 @@ class Game extends React.Component {
         return (
             <>
                 <h1>Turn: {this.state.turn}</h1>
-                <Board turn={this.state.turn} buttonClick={this.buttonClick} />
+                <Board 
+                    turn={this.state.turn} 
+                    toggleTurn={this.toggleTurn}
+                    updateSquares={this.updateSquares} />
             </>
         );
     }
