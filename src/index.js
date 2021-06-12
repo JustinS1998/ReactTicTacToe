@@ -11,7 +11,7 @@ class Square extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        if (this.state.mark === '') {
+        if (this.state.mark === '' && this.props.winner==='') {
             this.setState({ mark: this.props.turn });
             this.props.toggleTurn();
             this.props.updateSquares(this.props.num);
@@ -35,7 +35,8 @@ class Board extends React.Component {
             turn={this.props.turn}
             toggleTurn={this.props.toggleTurn}
             updateSquares={this.props.updateSquares}
-            calculateWinner={this.props.calculateWinner} />
+            calculateWinner={this.props.calculateWinner}
+            winner={this.props.winner} />
     }
     render() {
         return (
@@ -113,7 +114,8 @@ class Game extends React.Component {
                     turn={this.state.turn} 
                     toggleTurn={this.toggleTurn}
                     updateSquares={this.updateSquares}
-                    calculateWinner={this.calculateWinner} />
+                    calculateWinner={this.calculateWinner}
+                    winner={this.state.winner} />
             </>
         );
     }
